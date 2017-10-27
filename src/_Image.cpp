@@ -7,6 +7,7 @@
 #include <Magick++/STL.h>
 
 #include "_Pixels.h"
+#include "_WithGuard.h"
 
 using namespace boost::python;
 
@@ -308,7 +309,7 @@ void __Image()
 #else
         .def("write", (void (Magick::Image::*)(Magick::Blob*, const std::string&, const unsigned int) )&Magick::Image::write)
 #endif
-        .def("zoom", &Magick::Image::zoom)
+        .def("zoom", with<no_gil>(&Magick::Image::zoom))
         .def("adjoin", (void (Magick::Image::*)(const bool) )&Magick::Image::adjoin)
         .def("adjoin", (bool (Magick::Image::*)() const)&Magick::Image::adjoin)
         .def("antiAlias", (void (Magick::Image::*)(const bool) )&Magick::Image::antiAlias)
@@ -437,7 +438,7 @@ void __Image()
         .def("lineWidth", (void (Magick::Image::*)(const double) )&Magick::Image::lineWidth)
         .def("lineWidth", (double (Magick::Image::*)() const)&Magick::Image::lineWidth)
         .def("magick", (void (Magick::Image::*)(const std::string&) )&Magick::Image::magick)
-        .def("magick", (std::string (Magick::Image::*)() const)&Magick::Image::magick)
+        .def("magick", with<no_gil>((std::string (Magick::Image::*)() const)&Magick::Image::magick))
         .def("matte", (void (Magick::Image::*)(const bool) )&Magick::Image::matte)
         .def("matte", (bool (Magick::Image::*)() const)&Magick::Image::matte)
         .def("matteColor", (void (Magick::Image::*)(const Magick::Color&) )&Magick::Image::matteColor)
